@@ -25,6 +25,7 @@ export default function TextForm(props) {
         var copyText = document.getElementById("myBox");
         copyText.select();
         navigator.clipboard.writeText(copyText.value);
+        document.getSelection().removeAllRanges();
         props.showAlert("Copied to  Clipboard","success")
     }
 
@@ -40,21 +41,21 @@ export default function TextForm(props) {
             <h1>{props.heading}</h1>
             <div className="mb-3 ">
                 <textarea className="form-control" id="myBox" style={{
-                    backgroundColor :props.mode === "dark" ? "grey":"white",
+                    backgroundColor :props.mode === "dark" ? "#344f7a":"white",
                     color :props.mode === "dark" ? "white":"black"
                     }} onChange= {handleChange} value={text} rows="8"></textarea>
             </div>
-            <button className={`btn btn-${props.mode==="light" ? "dark":"primary"} mx-1 my-2`} onClick={handleupclick}>Convert to UpperCase</button>
-            <button className={`btn btn-${props.mode==="light" ? "dark":"primary"} mx-1 my-2`} onClick={handleloclick}>Convert to LowerCase</button>
-            <button className={`btn btn-${props.mode==="light" ? "dark":"primary"} mx-1 my-2`} onClick={handleClear}>Clear</button>
-            <button className={`btn btn-${props.mode==="light" ? "dark":"primary"} mx-1 my-2`} onClick={handleCopy}>Copy</button>
-            <button className={`btn btn-${props.mode==="light" ? "dark":"primary"} mx-1 my-2`}onClick={handleRES}>Remove Extra Space</button>
+            <button disabled={text.length===0} className={`btn btn-${props.mode==="light" ? "dark":"primary"} mx-1 my-1`} onClick={handleupclick}>Convert to UpperCase</button>
+            <button disabled={text.length===0} className={`btn btn-${props.mode==="light" ? "dark":"primary"} mx-1 my-1`} onClick={handleloclick}>Convert to LowerCase</button>
+            <button disabled={text.length===0} className={`btn btn-${props.mode==="light" ? "dark":"primary"} mx-1 my-1`} onClick={handleClear}>Clear</button>
+            <button disabled={text.length===0} className={`btn btn-${props.mode==="light" ? "dark":"primary"} mx-1 my-1`} onClick={handleCopy}>Copy</button>
+            <button disabled={text.length===0} className={`btn btn-${props.mode==="light" ? "dark":"primary"} mx-1 my-1`}onClick={handleRES}>Remove Extra Space</button>
             </div>
         
         <div className="container my-3" style={{ color :props.mode === "dark" ? "white":"black"}}>
             <h1>Your Text Summary</h1>
-            <p>{text.split(" ").length} words and {text.length} characters</p>           
-            <p>{0.008 * text.split(" ").length} minutes to read</p>
+            <p>{text.split(" ").filter((element)=>{return element.length!==0}).length} words and {text.length} characters</p>           
+            <p>{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} minutes to read</p>
             <h2>Preview</h2>
             <p>{text.length>0 ? text : "Enter Text in Text Area"}</p>
         </div>
